@@ -1,0 +1,65 @@
+{
+  "messages": [
+    {
+      "name": "Busy",
+      "opcode": 129,
+      "size": 2
+    },
+    {
+      "name": "GlobalPowerOff",
+      "opcode": 130,
+      "size": 2
+    },
+    {
+      "name": "GlobalPowerOn",
+      "opcode": 131,
+      "size": 2
+    },
+    {
+      "name": "Idle",
+      "opcode": 133,
+      "size": 2
+    },
+    {
+      "name": "RequestLocoAddress",
+      "opcode": 191,
+      "size": 4
+    },
+    {
+      "name": "RequestSwitchAck",
+      "opcode": 189,
+      "size": 4
+    },
+    {
+      "name": "SetLocoSpeed",
+      "opcode": 160,
+      "size": 4
+    },
+    {
+      "name": "SetLocoDirFun",
+      "opcode": 161,
+      "size": 4
+    },
+    {
+      "name": "SetLocoSoundFun",
+      "opcode": 162,
+      "size": 4
+    },
+    {
+      "name": "InputRep",
+      "opcode": 178,
+      "size": 4
+    },
+    {
+      "name": "ReadSlotData",
+      "opcode": 231,
+      "size": 14
+    },
+    {
+      "name": "WriteSlotData",
+      "opcode": 239,
+      "size": 14
+    }
+  ]
+}
+
