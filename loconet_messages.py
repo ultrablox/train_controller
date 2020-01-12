@@ -3,169 +3,274 @@ from loconet_utils import *
 class LNBusyMessage:
   opcode = 0x81
   size = 2
+
+  def __init__(self):
+    pass
+
   def serialize(self):
     res = [ LNBusyMessage.opcode ]
     res += [ loconet_checksum(res) ]
     assert len(res) == LNBusyMessage.size, "Invalid serialization"
     return res
+
   def deserialize(self, data):
     assert len(data) == LNBusyMessage.size, "Invalid serialization"
+
   def __str__(self):
-    return "LNBusyMessage"
+    paramValues = []
+    return "LNBusyMessage({})".format(", ".join(paramValues))
+
 
 
 class LNGlobalPowerOffMessage:
   opcode = 0x82
   size = 2
+
+  def __init__(self):
+    pass
+
   def serialize(self):
     res = [ LNGlobalPowerOffMessage.opcode ]
     res += [ loconet_checksum(res) ]
     assert len(res) == LNGlobalPowerOffMessage.size, "Invalid serialization"
     return res
+
   def deserialize(self, data):
     assert len(data) == LNGlobalPowerOffMessage.size, "Invalid serialization"
+
   def __str__(self):
-    return "LNGlobalPowerOffMessage"
+    paramValues = []
+    return "LNGlobalPowerOffMessage({})".format(", ".join(paramValues))
+
 
 
 class LNGlobalPowerOnMessage:
   opcode = 0x83
   size = 2
+
+  def __init__(self):
+    pass
+
   def serialize(self):
     res = [ LNGlobalPowerOnMessage.opcode ]
     res += [ loconet_checksum(res) ]
     assert len(res) == LNGlobalPowerOnMessage.size, "Invalid serialization"
     return res
+
   def deserialize(self, data):
     assert len(data) == LNGlobalPowerOnMessage.size, "Invalid serialization"
+
   def __str__(self):
-    return "LNGlobalPowerOnMessage"
+    paramValues = []
+    return "LNGlobalPowerOnMessage({})".format(", ".join(paramValues))
+
 
 
 class LNIdleMessage:
   opcode = 0x85
   size = 2
+
+  def __init__(self):
+    pass
+
   def serialize(self):
     res = [ LNIdleMessage.opcode ]
     res += [ loconet_checksum(res) ]
     assert len(res) == LNIdleMessage.size, "Invalid serialization"
     return res
+
   def deserialize(self, data):
     assert len(data) == LNIdleMessage.size, "Invalid serialization"
+
   def __str__(self):
-    return "LNIdleMessage"
+    paramValues = []
+    return "LNIdleMessage({})".format(", ".join(paramValues))
+
 
 
 class LNRequestLocoAddressMessage:
   opcode = 0xbf
   size = 4
+
+  def __init__(self):
+    pass
+
   def serialize(self):
     res = [ LNRequestLocoAddressMessage.opcode ]
     res += [ loconet_checksum(res) ]
     assert len(res) == LNRequestLocoAddressMessage.size, "Invalid serialization"
     return res
+
   def deserialize(self, data):
     assert len(data) == LNRequestLocoAddressMessage.size, "Invalid serialization"
+
   def __str__(self):
-    return "LNRequestLocoAddressMessage"
+    paramValues = []
+    return "LNRequestLocoAddressMessage({})".format(", ".join(paramValues))
+
 
 
 class LNRequestSwitchAckMessage:
   opcode = 0xbd
   size = 4
+
+  def __init__(self):
+    pass
+
   def serialize(self):
     res = [ LNRequestSwitchAckMessage.opcode ]
     res += [ loconet_checksum(res) ]
     assert len(res) == LNRequestSwitchAckMessage.size, "Invalid serialization"
     return res
+
   def deserialize(self, data):
     assert len(data) == LNRequestSwitchAckMessage.size, "Invalid serialization"
+
   def __str__(self):
-    return "LNRequestSwitchAckMessage"
+    paramValues = []
+    return "LNRequestSwitchAckMessage({})".format(", ".join(paramValues))
+
 
 
 class LNSetLocoSpeedMessage:
   opcode = 0xa0
   size = 4
+
+  def __init__(self, slot = 0, speed = 0):
+    self.__slot = slot
+    self.__speed = speed
+
   def serialize(self):
     res = [ LNSetLocoSpeedMessage.opcode ]
     res += [ loconet_checksum(res) ]
     assert len(res) == LNSetLocoSpeedMessage.size, "Invalid serialization"
     return res
+
   def deserialize(self, data):
     assert len(data) == LNSetLocoSpeedMessage.size, "Invalid serialization"
+
   def __str__(self):
-    return "LNSetLocoSpeedMessage"
+    paramValues = []
+    paramValues += ["slot={}".format(self.__slot)]
+    paramValues += ["speed={}".format(self.__speed)]
+    return "LNSetLocoSpeedMessage({})".format(", ".join(paramValues))
+
 
 
 class LNSetLocoDirFunMessage:
   opcode = 0xa1
   size = 4
+
+  def __init__(self, slot = 0, func = 0):
+    self.__slot = slot
+    self.__func = func
+
   def serialize(self):
     res = [ LNSetLocoDirFunMessage.opcode ]
     res += [ loconet_checksum(res) ]
     assert len(res) == LNSetLocoDirFunMessage.size, "Invalid serialization"
     return res
+
   def deserialize(self, data):
     assert len(data) == LNSetLocoDirFunMessage.size, "Invalid serialization"
+
   def __str__(self):
-    return "LNSetLocoDirFunMessage"
+    paramValues = []
+    paramValues += ["slot={}".format(self.__slot)]
+    paramValues += ["func={}".format(self.__func)]
+    return "LNSetLocoDirFunMessage({})".format(", ".join(paramValues))
+
 
 
 class LNSetLocoSoundFunMessage:
   opcode = 0xa2
   size = 4
+
+  def __init__(self, slot = 0, func = 0):
+    self.__slot = slot
+    self.__func = func
+
   def serialize(self):
     res = [ LNSetLocoSoundFunMessage.opcode ]
     res += [ loconet_checksum(res) ]
     assert len(res) == LNSetLocoSoundFunMessage.size, "Invalid serialization"
     return res
+
   def deserialize(self, data):
     assert len(data) == LNSetLocoSoundFunMessage.size, "Invalid serialization"
+
   def __str__(self):
-    return "LNSetLocoSoundFunMessage"
+    paramValues = []
+    paramValues += ["slot={}".format(self.__slot)]
+    paramValues += ["func={}".format(self.__func)]
+    return "LNSetLocoSoundFunMessage({})".format(", ".join(paramValues))
+
 
 
 class LNInputRepMessage:
   opcode = 0xb2
   size = 4
+
+  def __init__(self):
+    pass
+
   def serialize(self):
     res = [ LNInputRepMessage.opcode ]
     res += [ loconet_checksum(res) ]
     assert len(res) == LNInputRepMessage.size, "Invalid serialization"
     return res
+
   def deserialize(self, data):
     assert len(data) == LNInputRepMessage.size, "Invalid serialization"
+
   def __str__(self):
-    return "LNInputRepMessage"
+    paramValues = []
+    return "LNInputRepMessage({})".format(", ".join(paramValues))
+
 
 
 class LNReadSlotDataMessage:
   opcode = 0xe7
   size = 14
+
+  def __init__(self):
+    pass
+
   def serialize(self):
     res = [ LNReadSlotDataMessage.opcode ]
     res += [ loconet_checksum(res) ]
     assert len(res) == LNReadSlotDataMessage.size, "Invalid serialization"
     return res
+
   def deserialize(self, data):
     assert len(data) == LNReadSlotDataMessage.size, "Invalid serialization"
+
   def __str__(self):
-    return "LNReadSlotDataMessage"
+    paramValues = []
+    return "LNReadSlotDataMessage({})".format(", ".join(paramValues))
+
 
 
 class LNWriteSlotDataMessage:
   opcode = 0xef
   size = 14
+
+  def __init__(self):
+    pass
+
   def serialize(self):
     res = [ LNWriteSlotDataMessage.opcode ]
     res += [ loconet_checksum(res) ]
     assert len(res) == LNWriteSlotDataMessage.size, "Invalid serialization"
     return res
+
   def deserialize(self, data):
     assert len(data) == LNWriteSlotDataMessage.size, "Invalid serialization"
+
   def __str__(self):
-    return "LNWriteSlotDataMessage"
+    paramValues = []
+    return "LNWriteSlotDataMessage({})".format(", ".join(paramValues))
+
 
 
 class LocoNetDecoderBase:

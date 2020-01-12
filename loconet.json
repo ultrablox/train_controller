@@ -33,17 +33,41 @@
     {
       "name": "SetLocoSpeed",
       "opcode": 160,
-      "size": 4
+      "size": 4,
+      "fields": [
+        {
+          "name": "slot"
+        },
+        {
+          "name": "speed"
+        }
+      ]
     },
     {
       "name": "SetLocoDirFun",
       "opcode": 161,
-      "size": 4
+      "size": 4,
+      "fields": [
+        {
+          "name": "slot"
+        },
+        {
+          "name": "func"
+        }
+      ]
     },
     {
       "name": "SetLocoSoundFun",
       "opcode": 162,
-      "size": 4
+      "size": 4,
+      "fields": [
+        {
+          "name": "slot"
+        },
+        {
+          "name": "func"
+        }
+      ]
     },
     {
       "name": "InputRep",
