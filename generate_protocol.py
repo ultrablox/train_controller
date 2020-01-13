@@ -9,6 +9,7 @@ class MessageGenerator:
     self.__size = self.__node['size']
     self.__opcode = self.__node['opcode']
     self.__fields = self.__node['fields'] if 'fields' in self.__node else []
+    self.__variableLen = self.__size not in [2, 4, 6]
 
   def generate(self):
     self.__write('class {}:\n'.format(self.__className))
@@ -30,6 +31,12 @@ class MessageGenerator:
     # Serialization
     self.__write('  def serialize(self):\n')
     self.__write('    res = [ {}.opcode ]\n'.format(self.__className))
+    if self.__variableLen:
+      self.__write('    res += [ {} ]\n'.format(self.__size))
+
+    for field in self.__fields:
+      self.__write('    res += [ self.__{} ]\n'.format(field['name']))
+        
     self.__write('    res += [ loconet_checksum(res) ]\n')
     self.__write('    assert len(res) == {}.size, "Invalid serialization"\n'.format(self.__className))
     self.__write('    return res\n')
@@ -37,7 +44,19 @@ class MessageGenerator:
 
     # Deserialization
     self.__write('  def deserialize(self, data):\n')
-    self.__write('    assert len(data) == {}.size, "Invalid serialization"\n'.format(self.__className))
+    self.__write('    assert loconet_checksum(data[:-1]) == data[-1], "Invalid checksum"\n')
+    self.__write('    assert len(data) == {}.size, "Invalid deserialization"\n'.format(self.__className))
+    
+    curId = 1
+    if self.__variableLen:
+      self.__write('    assert data[{}] == {}, "Invalid variable message size"\n'.format(curId, self.__size))
+      curId = curId + 1
+
+    for i in range(0, len(self.__fields)):
+      field = self.__fields[i - 1]
+      self.__write('    self.__{} = data[{}]\n'.format(field['name'], curId + i))
+
+
     self.__write('\n')
 
     # Stringify

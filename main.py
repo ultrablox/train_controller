@@ -14,6 +14,7 @@ class DccClient:
     self.__port = port
     self.__socket = None
     self.__decoder = LocoNetDecoder()
+    self.__outQueue = []
 
   def connect(self):
     logging.info('Connecting to {}:{}'.format(self.__address, self.__port))
@@ -25,40 +26,68 @@ class DccClient:
     logging.info('Connection established')
 
   def run(self):
-    readers, _, _ = select.select(
+    readers, writers, _ = select.select(
                   [self.__socket],
-                  [],
+                  [self.__socket],
                   [],
                   0)
 
     if readers:
-      chunk = self.__socket.recv(128)  
-      # print('RX: {}'.format(chunk.hex()))
+      chunk = self.__socket.recv(128)
       self.__decoder.process(chunk)
 
-  def send(self, msg):
-    data = msg.serialize()
-    logging.info('>> {}'.format(msg))
-    byteData = bytearray(data)
-    self.__socket.send(byteData)
+    if writers and self.__outQueue:
+      msg = self.__outQueue[0]
+      self.__outQueue = self.__outQueue[1:]
 
+      data = msg.serialize()
+      logging.info('>> {}'.format(msg))
+      byteData = bytearray(data)
+      self.__socket.send(byteData)
+
+
+  def send(self, msg):
+    self.__outQueue += [msg]
+
+
+class ThreadRunner:
+  def __init__(self):
+    self.__runnables = []
+
+  def add(self, runnable):
+    self.__runnables += [runnable]
+
+  def run(self):
+    while True:
+      for runnable in self.__runnables:
+        runnable.doWork()
+
+class ScenarioExecutor:
+  def __init__(self):
+    self.__operations = []
+
+  def run(self):
+    pass
 
 def main():
   # logger = logging.getLogger('train_controller')
   logging.basicConfig(level=logging.INFO)
 
+  runner = ThreadRunner()
+
   client = DccClient('192.168.88.234', 5550)
   client.connect()
-
   client.send(LNGlobalPowerOnMessage())
+  runner.add(client)
 
-  x = 0
-  while True:
-    try:
-      client.run()
-    except KeyboardInterrupt:
-      client.send(LNGlobalPowerOffMessage())
-      sys.exit()
+  scenarioRunner = ScenarioExecutor()
+  runner.add(scenarioRunner)
+
+  try:
+    runner.run()
+  except KeyboardInterrupt:
+    client.send(LNGlobalPowerOffMessage())
+    sys.exit()
 
 
 if __name__ == "__main__":
