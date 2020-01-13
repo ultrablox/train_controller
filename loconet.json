@@ -310,6 +310,25 @@
           "name": "id2"
         }
       ]
+    },
+    {
+      "name": "SelectCurrentLocoAddress",
+      "opcode": 224,
+      "size": 6,
+      "fields": [
+        {
+          "name": "one"
+        },
+        {
+          "name": "two"
+        },
+        {
+          "name": "three"
+        },
+        {
+          "name": "address"
+        }
+      ]
     }
   ]
 }

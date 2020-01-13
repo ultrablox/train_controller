@@ -26,7 +26,7 @@ class DccClient:
     self.__socket.setblocking(0)
     logging.info('Connection established')
 
-  def run(self):
+  def doWork(self):
     readers, writers, _ = select.select(
                   [self.__socket],
                   [self.__socket],
@@ -78,21 +78,29 @@ def main():
   scenarioRunner.setDirection(Direction.FORWARD)
   scenarioRunner.wait(3)
   scenarioRunner.throttle(0.1)
-  scenarioRunner.wait(4)
+  scenarioRunner.wait(1)
   scenarioRunner.stop()
   scenarioRunner.wait(3)
+  scenarioRunner.setDirection(Direction.BACKWARD)
+  scenarioRunner.wait(3)
+  scenarioRunner.throttle(0.1)
+  scenarioRunner.wait(1)
+  scenarioRunner.stop()
+  scenarioRunner.wait(2)
   scenarioRunner.switchLight(LightState.OFF)
+  scenarioRunner.wait(2)
 
-  runner.add(scenarioRunner)
+  # runner.add(scenarioRunner)
   
   client.connect()
-  client.send(LNGlobalPowerOnMessage())
+  # client.send(LNGlobalPowerOnMessage())
+  # client.send(LNSelectCurrentLocoAddressMessage(6, 98, 0, 3))
 
   try:
     runner.run()
   except KeyboardInterrupt:
     client.send(LNGlobalPowerOffMessage())
-    sys.exit()
+    # sys.exit()
 
 
 if __name__ == "__main__":

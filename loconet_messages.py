@@ -111,8 +111,8 @@ class LNRequestLocoAddressMessage:
   def deserialize(self, data):
     assert loconet_checksum(data[:-1]) == data[-1], "Invalid checksum"
     assert len(data) == LNRequestLocoAddressMessage.size, "Invalid deserialization"
-    self.__address = data[1]
-    self.__zero = data[2]
+    self.__zero = data[1]
+    self.__address = data[2]
 
   def __str__(self):
     paramValues = []
@@ -141,8 +141,8 @@ class LNRequestSwitchAckMessage:
   def deserialize(self, data):
     assert loconet_checksum(data[:-1]) == data[-1], "Invalid checksum"
     assert len(data) == LNRequestSwitchAckMessage.size, "Invalid deserialization"
-    self.__second = data[1]
-    self.__first = data[2]
+    self.__first = data[1]
+    self.__second = data[2]
 
   def __str__(self):
     paramValues = []
@@ -171,8 +171,8 @@ class LNRequestSwitchStateMessage:
   def deserialize(self, data):
     assert loconet_checksum(data[:-1]) == data[-1], "Invalid checksum"
     assert len(data) == LNRequestSwitchStateMessage.size, "Invalid deserialization"
-    self.__second = data[1]
-    self.__first = data[2]
+    self.__first = data[1]
+    self.__second = data[2]
 
   def __str__(self):
     paramValues = []
@@ -201,8 +201,8 @@ class LNRequestSlotDataMessage:
   def deserialize(self, data):
     assert loconet_checksum(data[:-1]) == data[-1], "Invalid checksum"
     assert len(data) == LNRequestSlotDataMessage.size, "Invalid deserialization"
-    self.__zero = data[1]
-    self.__slot = data[2]
+    self.__slot = data[1]
+    self.__zero = data[2]
 
   def __str__(self):
     paramValues = []
@@ -231,8 +231,8 @@ class LNMoveSlotsMessage:
   def deserialize(self, data):
     assert loconet_checksum(data[:-1]) == data[-1], "Invalid checksum"
     assert len(data) == LNMoveSlotsMessage.size, "Invalid deserialization"
-    self.__destination = data[1]
-    self.__source = data[2]
+    self.__source = data[1]
+    self.__destination = data[2]
 
   def __str__(self):
     paramValues = []
@@ -261,8 +261,8 @@ class LNLinkSlotsMessage:
   def deserialize(self, data):
     assert loconet_checksum(data[:-1]) == data[-1], "Invalid checksum"
     assert len(data) == LNLinkSlotsMessage.size, "Invalid deserialization"
-    self.__destination = data[1]
-    self.__source = data[2]
+    self.__source = data[1]
+    self.__destination = data[2]
 
   def __str__(self):
     paramValues = []
@@ -291,8 +291,8 @@ class LNUnlinkSlotsMessage:
   def deserialize(self, data):
     assert loconet_checksum(data[:-1]) == data[-1], "Invalid checksum"
     assert len(data) == LNUnlinkSlotsMessage.size, "Invalid deserialization"
-    self.__destination = data[1]
-    self.__source = data[2]
+    self.__source = data[1]
+    self.__destination = data[2]
 
   def __str__(self):
     paramValues = []
@@ -321,8 +321,8 @@ class LNConsitsFunMessage:
   def deserialize(self, data):
     assert loconet_checksum(data[:-1]) == data[-1], "Invalid checksum"
     assert len(data) == LNConsitsFunMessage.size, "Invalid deserialization"
-    self.__dirf = data[1]
-    self.__slot = data[2]
+    self.__slot = data[1]
+    self.__dirf = data[2]
 
   def __str__(self):
     paramValues = []
@@ -351,8 +351,8 @@ class LNWriteSlotStatMessage:
   def deserialize(self, data):
     assert loconet_checksum(data[:-1]) == data[-1], "Invalid checksum"
     assert len(data) == LNWriteSlotStatMessage.size, "Invalid deserialization"
-    self.__stat = data[1]
-    self.__slot = data[2]
+    self.__slot = data[1]
+    self.__stat = data[2]
 
   def __str__(self):
     paramValues = []
@@ -381,8 +381,8 @@ class LNLongAckMessage:
   def deserialize(self, data):
     assert loconet_checksum(data[:-1]) == data[-1], "Invalid checksum"
     assert len(data) == LNLongAckMessage.size, "Invalid deserialization"
-    self.__response = data[1]
-    self.__sentOpcode = data[2]
+    self.__sentOpcode = data[1]
+    self.__response = data[2]
 
   def __str__(self):
     paramValues = []
@@ -411,8 +411,8 @@ class LNInputStatusMessage:
   def deserialize(self, data):
     assert loconet_checksum(data[:-1]) == data[-1], "Invalid checksum"
     assert len(data) == LNInputStatusMessage.size, "Invalid deserialization"
-    self.__status = data[1]
-    self.__address = data[2]
+    self.__address = data[1]
+    self.__status = data[2]
 
   def __str__(self):
     paramValues = []
@@ -441,8 +441,8 @@ class LNSensorStatusMessage:
   def deserialize(self, data):
     assert loconet_checksum(data[:-1]) == data[-1], "Invalid checksum"
     assert len(data) == LNSensorStatusMessage.size, "Invalid deserialization"
-    self.__status = data[1]
-    self.__address = data[2]
+    self.__address = data[1]
+    self.__status = data[2]
 
   def __str__(self):
     paramValues = []
@@ -471,8 +471,8 @@ class LNRequestSwitchFunMessage:
   def deserialize(self, data):
     assert loconet_checksum(data[:-1]) == data[-1], "Invalid checksum"
     assert len(data) == LNRequestSwitchFunMessage.size, "Invalid deserialization"
-    self.__status = data[1]
-    self.__address = data[2]
+    self.__address = data[1]
+    self.__status = data[2]
 
   def __str__(self):
     paramValues = []
@@ -501,8 +501,8 @@ class LNSetLocoSpeedMessage:
   def deserialize(self, data):
     assert loconet_checksum(data[:-1]) == data[-1], "Invalid checksum"
     assert len(data) == LNSetLocoSpeedMessage.size, "Invalid deserialization"
-    self.__speed = data[1]
-    self.__slot = data[2]
+    self.__slot = data[1]
+    self.__speed = data[2]
 
   def __str__(self):
     paramValues = []
@@ -531,8 +531,8 @@ class LNSetLocoDirFunMessage:
   def deserialize(self, data):
     assert loconet_checksum(data[:-1]) == data[-1], "Invalid checksum"
     assert len(data) == LNSetLocoDirFunMessage.size, "Invalid deserialization"
-    self.__func = data[1]
-    self.__slot = data[2]
+    self.__slot = data[1]
+    self.__func = data[2]
 
   def __str__(self):
     paramValues = []
@@ -561,8 +561,8 @@ class LNSetLocoSoundFunMessage:
   def deserialize(self, data):
     assert loconet_checksum(data[:-1]) == data[-1], "Invalid checksum"
     assert len(data) == LNSetLocoSoundFunMessage.size, "Invalid deserialization"
-    self.__func = data[1]
-    self.__slot = data[2]
+    self.__slot = data[1]
+    self.__func = data[2]
 
   def __str__(self):
     paramValues = []
@@ -611,17 +611,17 @@ class LNReadSlotDataMessage:
     assert loconet_checksum(data[:-1]) == data[-1], "Invalid checksum"
     assert len(data) == LNReadSlotDataMessage.size, "Invalid deserialization"
     assert data[1] == 14, "Invalid variable message size"
-    self.__id2 = data[2]
-    self.__slot = data[3]
-    self.__stat = data[4]
-    self.__address = data[5]
-    self.__speed = data[6]
-    self.__direction = data[7]
-    self.__track = data[8]
-    self.__ss2 = data[9]
-    self.__address2 = data[10]
-    self.__sound = data[11]
-    self.__id1 = data[12]
+    self.__slot = data[2]
+    self.__stat = data[3]
+    self.__address = data[4]
+    self.__speed = data[5]
+    self.__direction = data[6]
+    self.__track = data[7]
+    self.__ss2 = data[8]
+    self.__address2 = data[9]
+    self.__sound = data[10]
+    self.__id1 = data[11]
+    self.__id2 = data[12]
 
   def __str__(self):
     paramValues = []
@@ -679,17 +679,17 @@ class LNWriteSlotDataMessage:
     assert loconet_checksum(data[:-1]) == data[-1], "Invalid checksum"
     assert len(data) == LNWriteSlotDataMessage.size, "Invalid deserialization"
     assert data[1] == 14, "Invalid variable message size"
-    self.__id2 = data[2]
-    self.__slot = data[3]
-    self.__stat = data[4]
-    self.__address = data[5]
-    self.__speed = data[6]
-    self.__direction = data[7]
-    self.__track = data[8]
-    self.__ss2 = data[9]
-    self.__address2 = data[10]
-    self.__sound = data[11]
-    self.__id1 = data[12]
+    self.__slot = data[2]
+    self.__stat = data[3]
+    self.__address = data[4]
+    self.__speed = data[5]
+    self.__direction = data[6]
+    self.__track = data[7]
+    self.__ss2 = data[8]
+    self.__address2 = data[9]
+    self.__sound = data[10]
+    self.__id1 = data[11]
+    self.__id2 = data[12]
 
   def __str__(self):
     paramValues = []
@@ -708,6 +708,44 @@ class LNWriteSlotDataMessage:
 
 
 
+class LNSelectCurrentLocoAddressMessage:
+  opcode = 0xe0
+  size = 6
+
+  def __init__(self, one = 0, two = 0, three = 0, address = 0):
+    self.__one = one
+    self.__two = two
+    self.__three = three
+    self.__address = address
+
+  def serialize(self):
+    res = [ LNSelectCurrentLocoAddressMessage.opcode ]
+    res += [ self.__one ]
+    res += [ self.__two ]
+    res += [ self.__three ]
+    res += [ self.__address ]
+    res += [ loconet_checksum(res) ]
+    assert len(res) == LNSelectCurrentLocoAddressMessage.size, "Invalid serialization"
+    return res
+
+  def deserialize(self, data):
+    assert loconet_checksum(data[:-1]) == data[-1], "Invalid checksum"
+    assert len(data) == LNSelectCurrentLocoAddressMessage.size, "Invalid deserialization"
+    self.__one = data[1]
+    self.__two = data[2]
+    self.__three = data[3]
+    self.__address = data[4]
+
+  def __str__(self):
+    paramValues = []
+    paramValues += ["one={}".format(self.__one)]
+    paramValues += ["two={}".format(self.__two)]
+    paramValues += ["three={}".format(self.__three)]
+    paramValues += ["address={}".format(self.__address)]
+    return "LNSelectCurrentLocoAddressMessage({})".format(", ".join(paramValues))
+
+
+
 class LocoNetDecoderBase:
-  messageClasses = [LNBusyMessage, LNGlobalPowerOffMessage, LNGlobalPowerOnMessage, LNIdleMessage, LNRequestLocoAddressMessage, LNRequestSwitchAckMessage, LNRequestSwitchStateMessage, LNRequestSlotDataMessage, LNMoveSlotsMessage, LNLinkSlotsMessage, LNUnlinkSlotsMessage, LNConsitsFunMessage, LNWriteSlotStatMessage, LNLongAckMessage, LNInputStatusMessage, LNSensorStatusMessage, LNRequestSwitchFunMessage, LNSetLocoSpeedMessage, LNSetLocoDirFunMessage, LNSetLocoSoundFunMessage, LNReadSlotDataMessage, LNWriteSlotDataMessage]
+  messageClasses = [LNBusyMessage, LNGlobalPowerOffMessage, LNGlobalPowerOnMessage, LNIdleMessage, LNRequestLocoAddressMessage, LNRequestSwitchAckMessage, LNRequestSwitchStateMessage, LNRequestSlotDataMessage, LNMoveSlotsMessage, LNLinkSlotsMessage, LNUnlinkSlotsMessage, LNConsitsFunMessage, LNWriteSlotStatMessage, LNLongAckMessage, LNInputStatusMessage, LNSensorStatusMessage, LNRequestSwitchFunMessage, LNSetLocoSpeedMessage, LNSetLocoDirFunMessage, LNSetLocoSoundFunMessage, LNReadSlotDataMessage, LNWriteSlotDataMessage, LNSelectCurrentLocoAddressMessage]
 

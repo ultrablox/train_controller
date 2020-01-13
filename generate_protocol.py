@@ -56,7 +56,7 @@ class MessageGenerator:
       curId = curId + 1
 
     for i in range(0, len(self.__fields)):
-      field = self.__fields[i - 1]
+      field = self.__fields[i]
       self.__write('    self.__{} = data[{}]\n'.format(field['name'], curId + i))
 
 

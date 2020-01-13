@@ -18,7 +18,7 @@ class LocoNetDecoder(LocoNetDecoderBase):
     if len(self.__buffer) == 0:
       return False
 
-    logging.debug('Current buffer: {}'.format(self.__buffer))
+    logging.debug('Current buffer: {}'.format(list(map(lambda x: hex(x), self.__buffer))))
         
     opcode = self.__buffer[0]
     msgClass = self.__opcodeMessages[opcode]

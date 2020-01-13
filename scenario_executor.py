@@ -1,5 +1,9 @@
 from enum import Enum
 from datetime import datetime
+import logging
+from loconet_decoder import *
+import time
+
 
 class OperationState(Enum):
   NOT_STARTED = 0
@@ -42,7 +46,7 @@ class SwitchLightOperation(OperationBase):
     self.__state = state
 
   def run(self, currentTime, dccClient):
-    dccClient.send(LNSetLocoDirFunMessage(1, 1))
+    dccClient.send(LNSetLocoDirFunMessage(2, 48 if self.__state == LightState.ON else 32))
     self.finish()
 
 
@@ -52,36 +56,38 @@ class Direction(Enum):
   FORWARD = 0
   BACKWARD = 1
 
-class SetDirectionOperation:
+class SetDirectionOperation(OperationBase):
   def __init__(self, direction):
     super().__init__()
     self.__direction = direction
 
   def run(self, currentTime, dccClient):
-    # dccClient.send(...)
+    value = 0 if self.__direction == Direction.FORWARD else 32
+    dccClient.send(LNSetLocoDirFunMessage(slot=2, func=value))
     self.finish()
 
 # Wait
 
-class WaitOperation:
-  def __init__(self, duration):
+class WaitOperation(OperationBase):
+  def __init__(self, durationSec):
     super().__init__()
-    self.__duration = duration
+    self.__duration = durationSec * 1e6
 
   def run(self, currentTime, _):
-    if self.durationSinceStartMs(currentTime) > self.duration * 1e6:
+    if self.durationSinceStartMs(currentTime) > self.__duration:
       self.finish()
 
 
 # Throttle
 
-class ThrottleOperation:
+class ThrottleOperation(OperationBase):
   def __init__(self, speed):
     super().__init__()
     self.__speed = speed
 
   def run(self, currentTime, dccClient):
-    # dccClient.send(...)
+    value = 1 if self.__speed == 0 else 10
+    dccClient.send(LNSetLocoSpeedMessage(slot=2, speed=value))
     self.finish()
 
 # Scenario
@@ -108,15 +114,14 @@ class ScenarioExecutor:
   def stop(self):
     self.__operations += [ ThrottleOperation(0) ]
 
-  def run(self):
+  def doWork(self):
     assert self.__currentIndex < len(self.__operations), "Scenario is over"
 
-    dt = datetime.now()
-    currentTime = dt.microsecond
+    currentTime = time.time_ns() // 1000
 
     curOperation = self.__operations[self.__currentIndex]
     if curOperation.state() == OperationState.NOT_STARTED:
-      logging.info('Starting operation {}...'.format(curOperation))
+      logging.info('Starting operation {} at {} usec...'.format(curOperation, currentTime))
       curOperation.start(currentTime)
 
     if curOperation.state() == OperationState.RUNNING:
