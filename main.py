@@ -6,6 +6,7 @@ import errno
 import sys
 import select
 from loconet_decoder import *
+from scenario_executor import *
 
 
 class DccClient:
@@ -62,12 +63,6 @@ class ThreadRunner:
       for runnable in self.__runnables:
         runnable.doWork()
 
-class ScenarioExecutor:
-  def __init__(self):
-    self.__operations = []
-
-  def run(self):
-    pass
 
 def main():
   # logger = logging.getLogger('train_controller')
@@ -76,12 +71,22 @@ def main():
   runner = ThreadRunner()
 
   client = DccClient('192.168.88.234', 5550)
-  client.connect()
-  client.send(LNGlobalPowerOnMessage())
   runner.add(client)
 
-  scenarioRunner = ScenarioExecutor()
+  scenarioRunner = ScenarioExecutor(client)
+  scenarioRunner.switchLight(LightState.ON)
+  scenarioRunner.setDirection(Direction.FORWARD)
+  scenarioRunner.wait(3)
+  scenarioRunner.throttle(0.1)
+  scenarioRunner.wait(4)
+  scenarioRunner.stop()
+  scenarioRunner.wait(3)
+  scenarioRunner.switchLight(LightState.OFF)
+
   runner.add(scenarioRunner)
+  
+  client.connect()
+  client.send(LNGlobalPowerOnMessage())
 
   try:
     runner.run()
