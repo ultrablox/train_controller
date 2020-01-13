@@ -10,6 +10,9 @@ class MessageGenerator:
     self.__opcode = self.__node['opcode']
     self.__fields = self.__node['fields'] if 'fields' in self.__node else []
     self.__variableLen = self.__size not in [2, 4, 6]
+  
+  def opcode(self):
+    return self.__opcode
 
   def generate(self):
     self.__write('class {}:\n'.format(self.__className))
@@ -89,15 +92,20 @@ def main():
     inputData = json.load(f)
   
   messages = inputData['messages']
-  
+    
   with open('loconet_messages.py', 'w+') as f:
     f.write('from loconet_utils import *\n\n')
 
     msgNames = []
+    opcodes = []
     for msg in messages:
       msgGen = MessageGenerator(f, msg)
-      msgNames += [msgGen.generate()]
+      msgNames += [ msgGen.generate() ]
+      opcodes += [ msgGen.opcode() ]
+
+    assert len(list(set(opcodes))) == len(opcodes), "Opcode duplicated"
   
+
     f.write('class LocoNetDecoderBase:\n')
     f.write('  messageClasses = [{}]\n\n'.format(', '.join(msgNames)))
 

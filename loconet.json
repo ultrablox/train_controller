@@ -23,12 +23,173 @@
     {
       "name": "RequestLocoAddress",
       "opcode": 191,
-      "size": 4
+      "size": 4,
+      "fields": [
+        {
+          "name": "zero",
+          "value": 0
+        },
+        {
+          "name": "address"
+        }
+      ]
     },
     {
       "name": "RequestSwitchAck",
       "opcode": 189,
-      "size": 4
+      "size": 4,
+      "fields": [
+        {
+          "name": "first"
+        },
+        {
+          "name": "second"
+        }
+      ]
+    },
+    {
+      "name": "RequestSwitchState",
+      "opcode": 188,
+      "size": 4,
+      "fields": [
+        {
+          "name": "first"
+        },
+        {
+          "name": "second"
+        }
+      ]
+    },
+    {
+      "name": "RequestSlotData",
+      "opcode": 187,
+      "size": 4,
+      "fields": [
+        {
+          "name": "slot"
+        },
+        {
+          "name": "zero",
+          "value": 0
+        }
+      ]
+    },
+    {
+      "name": "MoveSlots",
+      "opcode": 186,
+      "size": 4,
+      "fields": [
+        {
+          "name": "source"
+        },
+        {
+          "name": "destination"
+        }
+      ]
+    },
+    {
+      "name": "LinkSlots",
+      "opcode": 185,
+      "size": 4,
+      "fields": [
+        {
+          "name": "source"
+        },
+        {
+          "name": "destination"
+        }
+      ]
+    },
+    {
+      "name": "UnlinkSlots",
+      "opcode": 184,
+      "size": 4,
+      "fields": [
+        {
+          "name": "source"
+        },
+        {
+          "name": "destination"
+        }
+      ]
+    },
+    {
+      "name": "ConsitsFun",
+      "opcode": 182,
+      "size": 4,
+      "fields": [
+        {
+          "name": "slot"
+        },
+        {
+          "name": "dirf"
+        }
+      ]
+    },
+    {
+      "name": "WriteSlotStat",
+      "opcode": 181,
+      "size": 4,
+      "fields": [
+        {
+          "name": "slot"
+        },
+        {
+          "name": "stat"
+        }
+      ]
+    },
+    {
+      "name": "LongAck",
+      "opcode": 180,
+      "size": 4,
+      "fields": [
+        {
+          "name": "sentOpcode"
+        },
+        {
+          "name": "response"
+        }
+      ]
+    },
+    {
+      "name": "InputStatus",
+      "opcode": 178,
+      "size": 4,
+      "fields": [
+        {
+          "name": "address"
+        },
+        {
+          "name": "status"
+        }
+      ]
+    },
+    {
+      "name": "SensorStatus",
+      "opcode": 177,
+      "size": 4,
+      "fields": [
+        {
+          "name": "address"
+        },
+        {
+          "name": "status"
+        }
+      ]
+    },
+    {
+      "name": "RequestSwitchFun",
+      "opcode": 176,
+      "size": 4,
+      "fields": [
+        {
+          "name": "address"
+        },
+        {
+          "name": "status"
+        }
+      ]
     },
     {
       "name": "SetLocoSpeed",
@@ -69,20 +230,86 @@
         }
       ]
     },
-    {
-      "name": "InputRep",
-      "opcode": 178,
-      "size": 4
-    },
+    
     {
       "name": "ReadSlotData",
       "opcode": 231,
-      "size": 14
+      "size": 14,
+      "fields": [
+        {
+          "name": "slot"
+        },
+        {
+          "name": "stat"
+        },
+        {
+          "name": "address"
+        },
+        {
+          "name": "speed"
+        },
+        {
+          "name": "direction"
+        },
+        {
+          "name": "track"
+        },
+        {
+          "name": "ss2"
+        },
+        {
+          "name": "address2"
+        },
+        {
+          "name": "sound"
+        },
+        {
+          "name": "id1"
+        },
+        {
+          "name": "id2"
+        }
+      ]
     },
     {
       "name": "WriteSlotData",
       "opcode": 239,
-      "size": 14
+      "size": 14,
+      "fields": [
+        {
+          "name": "slot"
+        },
+        {
+          "name": "stat"
+        },
+        {
+          "name": "address"
+        },
+        {
+          "name": "speed"
+        },
+        {
+          "name": "direction"
+        },
+        {
+          "name": "track"
+        },
+        {
+          "name": "ss2"
+        },
+        {
+          "name": "address2"
+        },
+        {
+          "name": "sound"
+        },
+        {
+          "name": "id1"
+        },
+        {
+          "name": "id2"
+        }
+      ]
     }
   ]
 }
