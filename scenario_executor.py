@@ -30,7 +30,7 @@ class OperationBase:
   def durationSinceStartMs(self, curTime):
     return curTime - self.__startTime
 
-  def run(self, currentTime, dccClient):
+  def run(self, currentTime):
     assert False, "Run not implemented"
 
 
@@ -41,12 +41,13 @@ class LightState(Enum):
   ON = 1
 
 class SwitchLightOperation(OperationBase):
-  def __init__(self, state):
+  def __init__(self, loco, state):
     super().__init__()
     self.__state = state
+    self.__locoController = loco
 
-  def run(self, currentTime, dccClient):
-    dccClient.send(LNSetLocoDirFunMessage(2, 48 if self.__state == LightState.ON else 32))
+  def run(self, currentTime):
+    self.__locoController.switchLight(self.__state)
     self.finish()
 
 
@@ -57,13 +58,13 @@ class Direction(Enum):
   BACKWARD = 1
 
 class SetDirectionOperation(OperationBase):
-  def __init__(self, direction):
+  def __init__(self, loco, direction):
     super().__init__()
     self.__direction = direction
+    self.__locoController = loco
 
-  def run(self, currentTime, dccClient):
-    value = 0 if self.__direction == Direction.FORWARD else 32
-    dccClient.send(LNSetLocoDirFunMessage(slot=2, func=value))
+  def run(self, currentTime):
+    self.__locoController.setDirection(self.__direction)
     self.finish()
 
 # Wait
@@ -73,7 +74,7 @@ class WaitOperation(OperationBase):
     super().__init__()
     self.__duration = durationSec * 1e6
 
-  def run(self, currentTime, _):
+  def run(self, currentTime):
     if self.durationSinceStartMs(currentTime) > self.__duration:
       self.finish()
 
@@ -81,13 +82,13 @@ class WaitOperation(OperationBase):
 # Throttle
 
 class ThrottleOperation(OperationBase):
-  def __init__(self, speed):
+  def __init__(self, loco, speed):
     super().__init__()
     self.__speed = speed
+    self.__locoController = loco
 
-  def run(self, currentTime, dccClient):
-    value = 1 if self.__speed == 0 else 10
-    dccClient.send(LNSetLocoSpeedMessage(slot=2, speed=value))
+  def run(self, currentTime):
+    self.__locoController.setSpeed(self.__speed)
     self.finish()
 
 # Scenario
@@ -98,24 +99,25 @@ class ScenarioExecutor:
     self.__currentIndex = 0
     self.__client = client
 
-  def switchLight(self, state):
-    self.__operations += [ SwitchLightOperation(state) ]
+  def switchLight(self, loco, state):
+    self.__operations += [ SwitchLightOperation(loco, state) ]
 
-  def setDirection(self, direction):
-    self.__operations += [ SetDirectionOperation(direction) ]
+  def setDirection(self, loco, direction):
+    self.__operations += [ SetDirectionOperation(loco, direction) ]
 
   def wait(self, durationSec):
     self.__operations += [ WaitOperation(durationSec) ]
   
   # Real value (0, 1.0]
-  def throttle(self, speed):
-    self.__operations += [ ThrottleOperation(speed) ]
+  def throttle(self, loco, speed):
+    self.__operations += [ ThrottleOperation(loco, speed) ]
 
-  def stop(self):
-    self.__operations += [ ThrottleOperation(0) ]
+  def stop(self, loco):
+    self.__operations += [ ThrottleOperation(loco, 0) ]
 
   def doWork(self):
-    assert self.__currentIndex < len(self.__operations), "Scenario is over"
+    if self.__currentIndex == len(self.__operations):
+      return
 
     currentTime = time.time_ns() // 1000
 
@@ -125,9 +127,12 @@ class ScenarioExecutor:
       curOperation.start(currentTime)
 
     if curOperation.state() == OperationState.RUNNING:
-      curOperation.run(currentTime, self.__client)
+      curOperation.run(currentTime)
 
     if curOperation.state() == OperationState.FINISHED:
       logging.info('Finished operation {}'.format(curOperation))
       self.__currentIndex = self.__currentIndex + 1
+
+    if self.__currentIndex == len(self.__operations):
+      logging.info("Scenario finished")
     

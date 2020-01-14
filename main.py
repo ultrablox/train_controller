@@ -7,6 +7,7 @@ import sys
 import select
 from loconet_decoder import *
 from scenario_executor import *
+from locomotive_controller import *
 
 
 class DccClient:
@@ -73,35 +74,39 @@ def main():
   client = DccClient('192.168.88.234', 5550)
   runner.add(client)
 
+  loco = LocomotiveController(client, 2)
+
   scenarioRunner = ScenarioExecutor(client)
-  scenarioRunner.switchLight(LightState.ON)
-  scenarioRunner.setDirection(Direction.FORWARD)
+  scenarioRunner.switchLight(loco, LightState.ON)
+  scenarioRunner.setDirection(loco, Direction.FORWARD)
   scenarioRunner.wait(3)
-  scenarioRunner.throttle(0.1)
+  scenarioRunner.throttle(loco, 0.1)
   scenarioRunner.wait(1)
-  scenarioRunner.stop()
+  scenarioRunner.stop(loco)
   scenarioRunner.wait(3)
-  scenarioRunner.setDirection(Direction.BACKWARD)
+  scenarioRunner.setDirection(loco, Direction.BACKWARD)
   scenarioRunner.wait(3)
-  scenarioRunner.throttle(0.1)
+  scenarioRunner.throttle(loco, 0.1)
   scenarioRunner.wait(1)
-  scenarioRunner.stop()
+  scenarioRunner.stop(loco)
   scenarioRunner.wait(2)
-  scenarioRunner.switchLight(LightState.OFF)
+  scenarioRunner.switchLight(loco, LightState.OFF)
   scenarioRunner.wait(2)
 
-  # runner.add(scenarioRunner)
+  runner.add(scenarioRunner)
   
   client.connect()
-  # client.send(LNGlobalPowerOnMessage())
+  # client.send(LNRequestLocoAddressMessage(0, 3))
+  client.send(LNGlobalPowerOnMessage())
   # client.send(LNSelectCurrentLocoAddressMessage(6, 98, 0, 3))
 
   try:
     runner.run()
   except KeyboardInterrupt:
-    client.send(LNGlobalPowerOffMessage())
+    pass
     # sys.exit()
 
+  client.send(LNGlobalPowerOffMessage())
 
 if __name__ == "__main__":
   main()
