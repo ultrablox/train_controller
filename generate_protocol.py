@@ -78,6 +78,12 @@ class MessageGenerator:
      
     self.__write('\n')
 
+    # Accessors
+    for field in self.__fields:
+      self.__write('  def {}(self):\n'.format(field['name']))
+      self.__write('    return self.__{}\n\n\n'.format(field['name']))
+
+
     self.__write('\n\n')
     return self.__className
 

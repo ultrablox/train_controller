@@ -312,7 +312,7 @@
       ]
     },
     {
-      "name": "SelectCurrentLocoAddress",
+      "name": "Unkown",
       "opcode": 224,
       "size": 6,
       "fields": [

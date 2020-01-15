@@ -120,6 +120,14 @@ class LNRequestLocoAddressMessage:
     paramValues += ["address={}".format(self.__address)]
     return "LNRequestLocoAddressMessage({})".format(", ".join(paramValues))
 
+  def zero(self):
+    return self.__zero
+
+
+  def address(self):
+    return self.__address
+
+
 
 
 class LNRequestSwitchAckMessage:
@@ -149,6 +157,14 @@ class LNRequestSwitchAckMessage:
     paramValues += ["first={}".format(self.__first)]
     paramValues += ["second={}".format(self.__second)]
     return "LNRequestSwitchAckMessage({})".format(", ".join(paramValues))
+
+  def first(self):
+    return self.__first
+
+
+  def second(self):
+    return self.__second
+
 
 
 
@@ -180,6 +196,14 @@ class LNRequestSwitchStateMessage:
     paramValues += ["second={}".format(self.__second)]
     return "LNRequestSwitchStateMessage({})".format(", ".join(paramValues))
 
+  def first(self):
+    return self.__first
+
+
+  def second(self):
+    return self.__second
+
+
 
 
 class LNRequestSlotDataMessage:
@@ -209,6 +233,14 @@ class LNRequestSlotDataMessage:
     paramValues += ["slot={}".format(self.__slot)]
     paramValues += ["zero={}".format(self.__zero)]
     return "LNRequestSlotDataMessage({})".format(", ".join(paramValues))
+
+  def slot(self):
+    return self.__slot
+
+
+  def zero(self):
+    return self.__zero
+
 
 
 
@@ -240,6 +272,14 @@ class LNMoveSlotsMessage:
     paramValues += ["destination={}".format(self.__destination)]
     return "LNMoveSlotsMessage({})".format(", ".join(paramValues))
 
+  def source(self):
+    return self.__source
+
+
+  def destination(self):
+    return self.__destination
+
+
 
 
 class LNLinkSlotsMessage:
@@ -269,6 +309,14 @@ class LNLinkSlotsMessage:
     paramValues += ["source={}".format(self.__source)]
     paramValues += ["destination={}".format(self.__destination)]
     return "LNLinkSlotsMessage({})".format(", ".join(paramValues))
+
+  def source(self):
+    return self.__source
+
+
+  def destination(self):
+    return self.__destination
+
 
 
 
@@ -300,6 +348,14 @@ class LNUnlinkSlotsMessage:
     paramValues += ["destination={}".format(self.__destination)]
     return "LNUnlinkSlotsMessage({})".format(", ".join(paramValues))
 
+  def source(self):
+    return self.__source
+
+
+  def destination(self):
+    return self.__destination
+
+
 
 
 class LNConsitsFunMessage:
@@ -329,6 +385,14 @@ class LNConsitsFunMessage:
     paramValues += ["slot={}".format(self.__slot)]
     paramValues += ["dirf={}".format(self.__dirf)]
     return "LNConsitsFunMessage({})".format(", ".join(paramValues))
+
+  def slot(self):
+    return self.__slot
+
+
+  def dirf(self):
+    return self.__dirf
+
 
 
 
@@ -360,6 +424,14 @@ class LNWriteSlotStatMessage:
     paramValues += ["stat={}".format(self.__stat)]
     return "LNWriteSlotStatMessage({})".format(", ".join(paramValues))
 
+  def slot(self):
+    return self.__slot
+
+
+  def stat(self):
+    return self.__stat
+
+
 
 
 class LNLongAckMessage:
@@ -389,6 +461,14 @@ class LNLongAckMessage:
     paramValues += ["sentOpcode={}".format(self.__sentOpcode)]
     paramValues += ["response={}".format(self.__response)]
     return "LNLongAckMessage({})".format(", ".join(paramValues))
+
+  def sentOpcode(self):
+    return self.__sentOpcode
+
+
+  def response(self):
+    return self.__response
+
 
 
 
@@ -420,6 +500,14 @@ class LNInputStatusMessage:
     paramValues += ["status={}".format(self.__status)]
     return "LNInputStatusMessage({})".format(", ".join(paramValues))
 
+  def address(self):
+    return self.__address
+
+
+  def status(self):
+    return self.__status
+
+
 
 
 class LNSensorStatusMessage:
@@ -449,6 +537,14 @@ class LNSensorStatusMessage:
     paramValues += ["address={}".format(self.__address)]
     paramValues += ["status={}".format(self.__status)]
     return "LNSensorStatusMessage({})".format(", ".join(paramValues))
+
+  def address(self):
+    return self.__address
+
+
+  def status(self):
+    return self.__status
+
 
 
 
@@ -480,6 +576,14 @@ class LNRequestSwitchFunMessage:
     paramValues += ["status={}".format(self.__status)]
     return "LNRequestSwitchFunMessage({})".format(", ".join(paramValues))
 
+  def address(self):
+    return self.__address
+
+
+  def status(self):
+    return self.__status
+
+
 
 
 class LNSetLocoSpeedMessage:
@@ -509,6 +613,14 @@ class LNSetLocoSpeedMessage:
     paramValues += ["slot={}".format(self.__slot)]
     paramValues += ["speed={}".format(self.__speed)]
     return "LNSetLocoSpeedMessage({})".format(", ".join(paramValues))
+
+  def slot(self):
+    return self.__slot
+
+
+  def speed(self):
+    return self.__speed
+
 
 
 
@@ -540,6 +652,14 @@ class LNSetLocoDirFunMessage:
     paramValues += ["func={}".format(self.__func)]
     return "LNSetLocoDirFunMessage({})".format(", ".join(paramValues))
 
+  def slot(self):
+    return self.__slot
+
+
+  def func(self):
+    return self.__func
+
+
 
 
 class LNSetLocoSoundFunMessage:
@@ -569,6 +689,14 @@ class LNSetLocoSoundFunMessage:
     paramValues += ["slot={}".format(self.__slot)]
     paramValues += ["func={}".format(self.__func)]
     return "LNSetLocoSoundFunMessage({})".format(", ".join(paramValues))
+
+  def slot(self):
+    return self.__slot
+
+
+  def func(self):
+    return self.__func
+
 
 
 
@@ -638,6 +766,50 @@ class LNReadSlotDataMessage:
     paramValues += ["id2={}".format(self.__id2)]
     return "LNReadSlotDataMessage({})".format(", ".join(paramValues))
 
+  def slot(self):
+    return self.__slot
+
+
+  def stat(self):
+    return self.__stat
+
+
+  def address(self):
+    return self.__address
+
+
+  def speed(self):
+    return self.__speed
+
+
+  def direction(self):
+    return self.__direction
+
+
+  def track(self):
+    return self.__track
+
+
+  def ss2(self):
+    return self.__ss2
+
+
+  def address2(self):
+    return self.__address2
+
+
+  def sound(self):
+    return self.__sound
+
+
+  def id1(self):
+    return self.__id1
+
+
+  def id2(self):
+    return self.__id2
+
+
 
 
 class LNWriteSlotDataMessage:
@@ -706,9 +878,53 @@ class LNWriteSlotDataMessage:
     paramValues += ["id2={}".format(self.__id2)]
     return "LNWriteSlotDataMessage({})".format(", ".join(paramValues))
 
+  def slot(self):
+    return self.__slot
 
 
-class LNSelectCurrentLocoAddressMessage:
+  def stat(self):
+    return self.__stat
+
+
+  def address(self):
+    return self.__address
+
+
+  def speed(self):
+    return self.__speed
+
+
+  def direction(self):
+    return self.__direction
+
+
+  def track(self):
+    return self.__track
+
+
+  def ss2(self):
+    return self.__ss2
+
+
+  def address2(self):
+    return self.__address2
+
+
+  def sound(self):
+    return self.__sound
+
+
+  def id1(self):
+    return self.__id1
+
+
+  def id2(self):
+    return self.__id2
+
+
+
+
+class LNUnkownMessage:
   opcode = 0xe0
   size = 6
 
@@ -719,18 +935,18 @@ class LNSelectCurrentLocoAddressMessage:
     self.__address = address
 
   def serialize(self):
-    res = [ LNSelectCurrentLocoAddressMessage.opcode ]
+    res = [ LNUnkownMessage.opcode ]
     res += [ self.__one ]
     res += [ self.__two ]
     res += [ self.__three ]
     res += [ self.__address ]
     res += [ loconet_checksum(res) ]
-    assert len(res) == LNSelectCurrentLocoAddressMessage.size, "Invalid serialization"
+    assert len(res) == LNUnkownMessage.size, "Invalid serialization"
     return res
 
   def deserialize(self, data):
     assert loconet_checksum(data[:-1]) == data[-1], "Invalid checksum"
-    assert len(data) == LNSelectCurrentLocoAddressMessage.size, "Invalid deserialization"
+    assert len(data) == LNUnkownMessage.size, "Invalid deserialization"
     self.__one = data[1]
     self.__two = data[2]
     self.__three = data[3]
@@ -742,10 +958,26 @@ class LNSelectCurrentLocoAddressMessage:
     paramValues += ["two={}".format(self.__two)]
     paramValues += ["three={}".format(self.__three)]
     paramValues += ["address={}".format(self.__address)]
-    return "LNSelectCurrentLocoAddressMessage({})".format(", ".join(paramValues))
+    return "LNUnkownMessage({})".format(", ".join(paramValues))
+
+  def one(self):
+    return self.__one
+
+
+  def two(self):
+    return self.__two
+
+
+  def three(self):
+    return self.__three
+
+
+  def address(self):
+    return self.__address
+
 
 
 
 class LocoNetDecoderBase:
-  messageClasses = [LNBusyMessage, LNGlobalPowerOffMessage, LNGlobalPowerOnMessage, LNIdleMessage, LNRequestLocoAddressMessage, LNRequestSwitchAckMessage, LNRequestSwitchStateMessage, LNRequestSlotDataMessage, LNMoveSlotsMessage, LNLinkSlotsMessage, LNUnlinkSlotsMessage, LNConsitsFunMessage, LNWriteSlotStatMessage, LNLongAckMessage, LNInputStatusMessage, LNSensorStatusMessage, LNRequestSwitchFunMessage, LNSetLocoSpeedMessage, LNSetLocoDirFunMessage, LNSetLocoSoundFunMessage, LNReadSlotDataMessage, LNWriteSlotDataMessage, LNSelectCurrentLocoAddressMessage]
+  messageClasses = [LNBusyMessage, LNGlobalPowerOffMessage, LNGlobalPowerOnMessage, LNIdleMessage, LNRequestLocoAddressMessage, LNRequestSwitchAckMessage, LNRequestSwitchStateMessage, LNRequestSlotDataMessage, LNMoveSlotsMessage, LNLinkSlotsMessage, LNUnlinkSlotsMessage, LNConsitsFunMessage, LNWriteSlotStatMessage, LNLongAckMessage, LNInputStatusMessage, LNSensorStatusMessage, LNRequestSwitchFunMessage, LNSetLocoSpeedMessage, LNSetLocoDirFunMessage, LNSetLocoSoundFunMessage, LNReadSlotDataMessage, LNWriteSlotDataMessage, LNUnkownMessage]
 

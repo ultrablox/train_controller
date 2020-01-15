@@ -3,6 +3,7 @@ from datetime import datetime
 import logging
 from loconet_decoder import *
 import time
+from thread_runner import *
 
 
 class OperationState(Enum):
@@ -93,7 +94,7 @@ class ThrottleOperation(OperationBase):
 
 # Scenario
 
-class ScenarioExecutor:
+class ScenarioExecutor(Runnable):
   def __init__(self, client):
     self.__operations = []
     self.__currentIndex = 0
@@ -119,8 +120,7 @@ class ScenarioExecutor:
     return 'ScenarioExecutor'
 
   def doWork(self):
-    if self.__currentIndex == len(self.__operations):
-      return
+    assert self.__currentIndex < len(self.__operations)
 
     currentTime = time.time_ns() // 1000
 
@@ -136,8 +136,6 @@ class ScenarioExecutor:
       logging.info('Finished operation {}'.format(curOperation))
       self.__currentIndex = self.__currentIndex + 1
 
-    if self.__currentIndex == len(self.__operations):
-      return True
-    
-    return False
+  def isFinished(self):
+    return self.__currentIndex == len(self.__operations)
     
