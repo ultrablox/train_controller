@@ -33,5 +33,13 @@ class LocomotiveController:
     self.__updateDirFunsByte()
 
   def setSpeed(self, speed):
-    value = 1 if speed == 0 else 10
+    assert speed <= 1.0
+    assert speed >= 0.0
+    value = 1 # Emergency stop
+
+    if speed == 0:
+      value = 0
+    else:
+      value = int((0x7f - 0x02) * speed) + 0x02
     self.__client.send(LNSetLocoSpeedMessage(slot=self.__slot, speed=value))
+

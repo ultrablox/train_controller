@@ -155,7 +155,6 @@ class LayoutController(Runnable):
     return 'LayoutController'
 
   def doWork(self):
-    # print(self.__state)
     if self.__state == self.State.DEFAULT:
       self.__initializer = DeviceInitializer(self.__client)
       self.__runner.add(self.__initializer)
@@ -178,13 +177,13 @@ class LayoutController(Runnable):
     sr.switchLight(self.__loco, LightState.ON)
     sr.setDirection(self.__loco, Direction.FORWARD)
     sr.wait(2)
-    sr.throttle(self.__loco, 0.1)
+    sr.throttle(self.__loco, 0.2)
     sr.wait(1)
     sr.stop(self.__loco)
     sr.wait(1)
     sr.setDirection(self.__loco, Direction.BACKWARD)
     sr.wait(2)
-    sr.throttle(self.__loco, 0.1)
+    sr.throttle(self.__loco, 0.2)
     sr.wait(1)
     sr.stop(self.__loco)
     sr.wait(1)
@@ -207,25 +206,11 @@ def main():
   controller = LayoutController(runner, client)
   runner.add(controller)
 
-
-
-  # loco = LocomotiveController(client, 2)
-
-
-
-  # runner.add(scenarioRunner)
-  
-  
-  # 
-  # client.send(LNGlobalPowerOnMessage())
-  # client.send(LNSelectCurrentLocoAddressMessage(6, 98, 0, 3))
-
   # try:
   runner.run()
   # except KeyboardInterrupt:
   #   pass
     # sys.exit()
-
   
 
 if __name__ == "__main__":
