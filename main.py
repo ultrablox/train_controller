@@ -8,15 +8,25 @@ import select
 from loconet_decoder import *
 from scenario_executor import *
 from locomotive_controller import *
+import numpy
 
 
 class DccClient:
+  class State(Enum):
+    INVALID = -1
+    DEFAULT = 0
+    WAITING_ECHO = 1
+    WAITING_RESPONSE = 2
+
   def __init__(self, address, port):
     self.__address = address
     self.__port = port
     self.__socket = None
     self.__decoder = LocoNetDecoder()
     self.__outQueue = []
+    self.__inQueue = []
+    self.__state = self.State.INVALID
+    self.__lastSentMsg = None
 
   def connect(self):
     logging.info('Connecting to {}:{}'.format(self.__address, self.__port))
@@ -26,30 +36,64 @@ class DccClient:
     self.__socket.connect((self.__address, self.__port))
     self.__socket.setblocking(0)
     logging.info('Connection established')
+    self.__state = self.State.DEFAULT
 
   def doWork(self):
-    readers, writers, _ = select.select(
+    # Read
+    readers, _, _ = select.select(
                   [self.__socket],
-                  [self.__socket],
+                  [],
                   [],
                   0)
 
     if readers:
       chunk = self.__socket.recv(128)
-      self.__decoder.process(chunk)
+      self.__inQueue += self.__decoder.process(chunk)
 
-    if writers and self.__outQueue:
-      msg = self.__outQueue[0]
-      self.__outQueue = self.__outQueue[1:]
+    # Analyze incoming
+    while self.__inQueue:
+      msg = self.__inQueue[0]
+      self.__inQueue = self.__inQueue[1:]
 
-      data = msg.serialize()
-      logging.info('>> {}'.format(msg))
-      byteData = bytearray(data)
-      self.__socket.send(byteData)
+      if self.__state == self.State.WAITING_ECHO:
+        if msg.serialize() == self.__lastSentMsg.serialize():
+          self.__lastSentMsg = None
+          self.__state = self.State.DEFAULT
+        else:
+          self.dispatch(msg)
+      else:
+        self.dispatch(msg)
 
+    # Send if possible
+    if self.__state == self.State.DEFAULT:
+      if self.__outQueue:
+        _, writers, _ = select.select(
+                    [],
+                    [self.__socket],
+                    [],
+                    0)
+
+        msg = self.__outQueue[0]
+        self.__outQueue = self.__outQueue[1:]
+
+        data = msg.serialize()
+        logging.info('>> {}'.format(msg))
+        byteData = bytearray(data)
+        self.__socket.send(byteData)
+        self.__lastSentMsg = msg
+        self.__state = self.State.WAITING_ECHO
+
+    return False
+      
 
   def send(self, msg):
     self.__outQueue += [msg]
+
+  def dispatch(self, msg):
+    logging.info('<< {}'.format(msg))
+
+  def description(self):
+    return 'DccClient'
 
 
 class ThreadRunner:
@@ -62,7 +106,10 @@ class ThreadRunner:
   def run(self):
     while True:
       for runnable in self.__runnables:
-        runnable.doWork()
+        finished = runnable.doWork()
+        if finished:
+          logging.info('Runnable "{}" is finished'.format(runnable.description()))
+          self.__runnables.remove(runnable)
 
 
 def main():
@@ -100,10 +147,10 @@ def main():
   client.send(LNGlobalPowerOnMessage())
   # client.send(LNSelectCurrentLocoAddressMessage(6, 98, 0, 3))
 
-  try:
-    runner.run()
-  except KeyboardInterrupt:
-    pass
+  # try:
+  runner.run()
+  # except KeyboardInterrupt:
+  #   pass
     # sys.exit()
 
   client.send(LNGlobalPowerOffMessage())

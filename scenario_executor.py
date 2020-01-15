@@ -114,6 +114,9 @@ class ScenarioExecutor:
 
   def stop(self, loco):
     self.__operations += [ ThrottleOperation(loco, 0) ]
+  
+  def description(self):
+    return 'ScenarioExecutor'
 
   def doWork(self):
     if self.__currentIndex == len(self.__operations):
@@ -134,5 +137,7 @@ class ScenarioExecutor:
       self.__currentIndex = self.__currentIndex + 1
 
     if self.__currentIndex == len(self.__operations):
-      logging.info("Scenario finished")
+      return True
+    
+    return False
     

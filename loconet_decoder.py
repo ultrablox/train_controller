@@ -11,12 +11,18 @@ class LocoNetDecoder(LocoNetDecoderBase):
   def process(self, chunk):
     self.__buffer += chunk
 
-    while self.__tryProcess():
-      pass
+    res = []
+    while True:
+      parsedMsg = self.__tryProcess()
+      if parsedMsg:
+        res += [parsedMsg]
+      else:
+        break
+    return res
 
   def __tryProcess(self):
     if len(self.__buffer) == 0:
-      return False
+      return None
 
     logging.debug('Current buffer: {}'.format(list(map(lambda x: hex(x), self.__buffer))))
         
@@ -27,15 +33,12 @@ class LocoNetDecoder(LocoNetDecoderBase):
     msgLen = msgClass.size
 
     if len(self.__buffer) < msgLen:
-      return False
+      return None
 
     logging.debug('Found message of class: {} {} bytes len'.format(msgClass, msgLen))
     msg = msgClass()
     msg.deserialize(self.__buffer[0:msgLen])
 
-    logging.info("<< {}".format(msg))
-
-  
     self.__buffer = self.__buffer[msgLen:]
 
-    return True
+    return msg
